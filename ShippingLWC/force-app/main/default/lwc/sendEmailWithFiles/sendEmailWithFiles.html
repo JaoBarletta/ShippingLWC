@@ -1,0 +1,48 @@
+<template>
+  <lightning-card title="Enviar Email com Arquivos">
+    <div class="slds-p-around_medium">
+      <lightning-input
+        label="Prefixo de Arquivo"
+        value={prefix}
+        onchange={handlePrefixChange}
+      ></lightning-input>
+
+      <lightning-combobox
+        label="Email Template"
+        options={templateOptions}
+        value={templateId}
+        onchange={handleTemplateChange}
+      ></lightning-combobox>
+
+      <lightning-input
+        label="Destinatário (ID)"
+        value={targetObjectId}
+        onchange={handleTargetChange}
+      ></lightning-input>
+
+      <lightning-input
+        label="Assunto (opcional)"
+        value={overrideSubject}
+        onchange={handleSubjectChange}
+      ></lightning-input>
+
+      <lightning-textarea
+        label="Corpo (opcional)"
+        value={overrideBody}
+        onchange={handleBodyChange}
+      ></lightning-textarea>
+
+      <lightning-input
+        label="Emails Adicionais (separados por “;”)"
+        placeholder="email1@ex.com;email2@ex.com"
+        onchange={handleExtraToChange}
+      ></lightning-input>
+
+      <lightning-button
+        variant="brand"
+        label="Enviar Email"
+        onclick={handleSendEmail}
+      ></lightning-button>
+    </div>
+  </lightning-card>
+</template>
