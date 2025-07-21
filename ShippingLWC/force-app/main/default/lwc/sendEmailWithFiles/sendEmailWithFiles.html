@@ -1,48 +1,88 @@
 <template>
   <lightning-card title="Enviar Email com Arquivos">
-    <div class="slds-p-around_medium">
-      <lightning-input
-        label="Prefixo de Arquivo"
-        value={prefix}
-        onchange={handlePrefixChange}
-      ></lightning-input>
-
+    <div class="slds-p-around_small">
+      <!-- SELECT de Template -->
       <lightning-combobox
+        name="template"
         label="Email Template"
         options={templateOptions}
-        value={templateId}
-        onchange={handleTemplateChange}
-      ></lightning-combobox>
+        value={selectedTemplate}
+        onchange={handleTemplateChange}>
+      </lightning-combobox>
 
-      <lightning-input
-        label="Destinatário (ID)"
-        value={targetObjectId}
-        onchange={handleTargetChange}
-      ></lightning-input>
+      <!-- SELECT de Account -->
+      <lightning-combobox
+        name="account"
+        label="Selecionar Account"
+        options={accountOptions}
+        value={selectedAccountId}
+        onchange={handleAccountChange}>
+      </lightning-combobox>
 
+      <!-- SELECT de Contact -->
+      <lightning-combobox
+        name="contact"
+        label="Selecionar Contact"
+        options={contactOptions}
+        value={selectedContactId}
+        onchange={handleContactChange}>
+      </lightning-combobox>
+
+      <!-- INPUT de Assunto -->
       <lightning-input
+        name="subject"
         label="Assunto (opcional)"
-        value={overrideSubject}
-        onchange={handleSubjectChange}
-      ></lightning-input>
+        value={subject}
+        onchange={handleSubjectChange}>
+      </lightning-input>
 
-      <lightning-textarea
+      <!-- RICH TEXT de Corpo -->
+      <lightning-input-rich-text
+        name="body"
         label="Corpo (opcional)"
-        value={overrideBody}
-        onchange={handleBodyChange}
-      ></lightning-textarea>
+        value={body}
+        onchange={handleBodyChange}>
+      </lightning-input-rich-text>
 
+      <!-- UPLOAD de Arquivos -->
+      <lightning-file-upload
+        record-id={recordId}
+        multiple
+        label="Anexar arquivos ao Shipping"
+        onuploadfinished={handleUploadFinished}>
+      </lightning-file-upload>
+
+      <!-- LISTAGEM dos arquivos vinculados -->
+      <template if:true={fileOptions.length}>
+        <lightning-checkbox-group
+          name="files"
+          label="Selecione os arquivos"
+          options={fileOptions}
+          value={selectedFileIds}
+          onchange={handleFilesChange}>
+        </lightning-checkbox-group>
+      </template>
+      <template if:true={noFilesMessage}>
+        <p class="slds-text-body_small slds-m-top_small">
+          {noFilesMessage}
+        </p>
+      </template>
+
+      <!-- INPUT de E-mails Extras (CC) -->
       <lightning-input
+        name="extraEmails"
         label="Emails Adicionais (separados por “;”)"
-        placeholder="email1@ex.com;email2@ex.com"
-        onchange={handleExtraToChange}
-      ></lightning-input>
+        value={extraEmails}
+        onchange={handleExtraEmailsChange}>
+      </lightning-input>
 
+      <!-- BOTÃO para enviar -->
       <lightning-button
+        class="slds-m-top_medium"
         variant="brand"
         label="Enviar Email"
-        onclick={handleSendEmail}
-      ></lightning-button>
+        onclick={handleSendEmail}>
+      </lightning-button>
     </div>
   </lightning-card>
 </template>
